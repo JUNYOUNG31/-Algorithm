@@ -16,28 +16,28 @@
 # 하나씩 아래와 같은 방법으로 입력된다. 가로로 자르는 점선은 0과 점선 번호가 차례로 주어지고,
 # 세로로 자르는 점선은 1과 점선 번호가 주어진다. 입력되는 두 숫자 사이에는 빈 칸이 하나씩 있다.
 
-C, R = map(int, input().split())
-N = int(input())
-C_list = [0, C]
-R_list = [0, R]
-max_c = 0
-max_r = 0
-for i in range(N):
-    a, b = map(int, input().split())
-    if a == 0:
-        R_list.append(b)        # 가로로 자르니깐 세로 리스트에 추가
-    else:
-        C_list.append(b)        # 세로로 자르니깐 가로 리스트에 추가
+C, R = map(int, input().split())           # 가로 세로
+N = int(input())                           # 자르는 횟수
+C_list = [0, C]                            # 가로 리스트에 양쪽 끝값 입력
+R_list = [0, R]                            # 세로 리스트에 양쪽 끝값 입력
+max_c = 0                                  # 최대 c
+max_r = 0                                  # 최대 r
+for i in range(N):                         # 자른다
+    a, b = map(int, input().split())       # 가로세로와 자르는 부분
+    if a == 0:                             # a = 0 이면 가로로 자르기
+        R_list.append(b)                   # 가로로 자르니깐 세로 리스트에 추가
+    else:   
+        C_list.append(b)                   # 세로로 자르니깐 가로 리스트에 추가
+   
+C_list.sort()                              # 가로 정렬
+R_list.sort()                              # 세로 정렬
 
-C_list.sort()
-R_list.sort()
-
-for i in range(len(C_list)-1):
-    if max_c < (C_list[i+1] - C_list[i]):
+for i in range(len(C_list)-1):             # 0 을 제외시킨다
+    if max_c < (C_list[i+1] - C_list[i]):  # 가로 길이의 최대값 찾기
         max_c = (C_list[i+1] - C_list[i])
 
-for i in range(len(R_list)-1):
+for i in range(len(R_list)-1):             # 세로 길이의 최대값 찾기
     if max_r < (R_list[i+1] - R_list[i]):
         max_r = (R_list[i+1] - R_list[i])
 
-print(max_c * max_r)
+print(max_c * max_r)                       # 가로 세로 곱

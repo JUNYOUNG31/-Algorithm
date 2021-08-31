@@ -15,39 +15,39 @@
 # 학생수는 100 이하인 양의 정수이다. 넷째 줄부터 마지막 줄까지 한 줄에 한 학생의 성별, 학생이 받은 수가 주어진다.
 # 남학생은 1로, 여학생은 2로 표시하고, 학생이 받은 수는 스위치 개수 이하인 양의 정수이다.
 # 학생의 성별과 받은 수 사이에 빈칸이 하나씩 있다.
+        
+N = int(input())                                        # 입력
+switch = [-1] + list(map(int, input().split()))         # 스위치의 인덱스를 맞추기 위해서 맨앞에 0 인덱스에 -1 을 넣는다
+students = int(input())                                 # 학생 수 
+for s in range(students):                               # 학생수 만큼 반복
+    gene, num = map(int, input().split())               # 성별과 스위치 번호 
 
-N = int(input())
-switch = [-1] + list(map(int, input().split()))
-students = int(input())
-for s in range(students):
-    gene, num = map(int, input().split())
+    if gene == 1:                                       # 남학생이면
+        for i in range(num, N+1, num):                  # 번호의 배수만큼 점프
+            if switch[i] == 0:                          # 꺼져있으면
+                switch[i] = 1                           # 키고
+            else:                                       # 켜져있으면
+                switch[i] = 0                           # 끈다
 
-    if gene == 1:
-        for i in range(num, N+1, num):
-            if switch[i] == 0:
-                switch[i] = 1
-            else:
-                switch[i] = 0
+    if gene == 2:                                       # 여학생이면
+        if switch[num] == 0:                            # 꺼져있으면
+            switch[num] = 1                             # 키고
+        else:                                           # 켜져있으면
+            switch[num] = 0                             # 끈다
+        jump = 0                                        # 점프할 변수
+        for i in range(N//2):                           # 스위치의 반만큼 반복
+            if num - i > 0 and num + i <= N:            # 인덱스 범위 조절
+                if switch[num - i] == switch[num+i]:    # 자신의 양쪽 같이 같다면
+                    jump += 1                           # 점프수 1 증가
+                else:                                   # 다르면
+                    break                               # 스톱
+        for j in range(1, jump):                        # 점프할 번수만큼 반복
+            if switch[num - j] == 0:                    # 어차피 양쪽이 같으니깐 한쪽만 비교 : 꺼져있으면
+                switch[num - j], switch[num + j] = 1, 1 # 양쪽을 킨다
+            elif switch[num - j] == 1:                  # 켜져있으면
+                switch[num - j], switch[num + j] = 0, 0 # 양쪽을 끈다
 
-    if gene == 2:
-        if switch[num] == 0:
-            switch[num] = 1
-        else:
-            switch[num] = 0
-        jump = 0
-        for i in range(N//2):
-            if num - i >= 0 and num + i <= N:
-                if switch[num - i] == switch[num+i]:
-                    jump += 1
-                else:
-                    break
-        for j in range(1, jump):
-            if switch[num - j] == 0:
-                switch[num - j], switch[num + j] = 1, 1
-            elif switch[num - j] == 1:
-                switch[num - j], switch[num + j] = 0, 0
-
-for i in range(1, N+1):
-    print(switch[i], end=' ')
-    if i % 20 == 0:
+for i in range(1, N+1):                                 # N + 1 반복
+    print(switch[i], end=' ')                           # 스위치 상태 표시
+    if i % 20 == 0:                                     # 20개 넘어가면 줄 바꾸기
         print()

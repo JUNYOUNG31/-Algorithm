@@ -14,32 +14,32 @@
 # 입력으로 첫 번째 수가 주어질 때, 이 수에서 시작하여 위의 규칙으로 만들어지는 최대 개수의 수들을
 # 구하는 프로그램을 작성하시오. 최대 개수의 수들이 여러 개일 때, 그중 하나의 수들만 출력하면 된다.
 
-N = int(input())
-max_cnt = 0
-max_lsit = []
-num_list = []
+N = int(input())                    # 첫수
+max_cnt = 0                         # 카운트가 가장 클때
+max_lsit = []                       # 그 값의 리스트
+num_list = []                       # 나열할 수들
 
-for i in range(N, 0, -1):
-    cnt = 0
-    two = i
-    three = N - two
-    one = N
-    num_list = [one, two, three]
-    while three >= 0:
-        one = two
-        two = three
-        three = one - two
-        if three < 0:
-            break
-        cnt += 1
-        num_list += [three]
+for i in range(N, 0, -1):           # N 부터 0 까지 가는데
+    cnt = 0                         # 카운트
+    two = i                         # 두번째수 i
+    three = N - two                 # 세번째수
+    one = N                         # 첫번째 수
+    num_list = [one, two, three]    # 처음 두번째 세번째 수 추가
+    while three >= 0:               # 세번째가 0보다 크다면
+        one = two                   # 첫번째는 두번째 수가 오고
+        two = three                 # 2번째는 세번째 수 가 오고
+        three = one - two           # 세번째는 위의 두수의 차
+        if three < 0:               # 0보다 작으면
+            break                   # 멈춰
+        cnt += 1                    # 카운트 1 증가
+        num_list += [three]         # 리스트에 세번째수 계속 추가
 
-    if max_cnt < cnt:
+    if max_cnt < cnt:               # max 값 찾기
         max_cnt = cnt
-        max_lsit = num_list
+        max_lsit = num_list         # 그때의 리스트
 
-print(len(max_lsit))
-print(*max_lsit)
+print(len(max_lsit))                # max 의 길이
+print(*max_lsit)                    # max 의 값들
 
 
 

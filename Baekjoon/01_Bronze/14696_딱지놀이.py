@@ -21,26 +21,26 @@
 # 낸 딱지의 그림들을 같은 식으로 표현한다. 위와 같은 식으로 매 라운드마다 두 어린이가 낸 딱지의 정보는 두 줄에 표현되며,
 # N 라운드의 딱지 정보는 차례대로 총 2N 개의 줄에 주어진다.
 
-N = int(input())
+N = int(input())                          # 라운드 개수
 
-for i in range(N):
-    A = list(map(int, input().split()))
-    A.pop(0)
-    B = list(map(int, input().split()))
-    B.pop(0)
-    cnt_A = [0, 0, 0, 0]
-    cnt_B = [0, 0, 0, 0]
-    for j in A:
-        cnt_A[j-1] += 1
-    for j in B:
+for i in range(N):                        # 라운드 반복
+    A = list(map(int, input().split()))   # 그림의 개수와 그림 모양
+    A.pop(0)                              # 그림의 개수 삭제
+    B = list(map(int, input().split()))   # 그림의 개수와 그림 모양
+    B.pop(0)                              # 그림의 개수 삭제
+    cnt_A = [0, 0, 0, 0]                  # A 문양의 개수 파악용
+    cnt_B = [0, 0, 0, 0]                  # B 문양의 개수 파악용
+    for j in A:                           # 카운트
+        cnt_A[j-1] += 1 
+    for j in B:                           # 카운트
         cnt_B[j-1] += 1
 
-    for k in range(3, -1, -1):
-        if cnt_A[k] > cnt_B[k]:
+    for k in range(3, -1, -1):            # 큰게 많을 수록 이기니깐 뒤에서 부터 반복
+        if cnt_A[k] > cnt_B[k]:           # A가 이길경우
             print('A')
             break
-        elif cnt_A[k] < cnt_B[k]:
+        elif cnt_A[k] < cnt_B[k]:         # B가 이길경우
             print('B')
             break
-    else:
+    else:                                 # 비길 경우
         print('D')
