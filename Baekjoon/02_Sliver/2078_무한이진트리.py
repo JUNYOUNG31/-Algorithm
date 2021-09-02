@@ -12,25 +12,25 @@
 # 첫째 줄에 두 정수 A, B(1≤A, B≤2,000,000,000)가 주어진다. 잘못된 입력은 주어지지 않는다고 가정한다.
 import sys
 
-A, B = sys.stdin.readline().split()
-a = int(A)
-b = int(B)
-cnt_L = 0
-cnt_R = 0
-while True:
-    if a == 1 and b == 1:
+A, B = sys.stdin.readline().split()     # A B 두수 입력
+a = int(A)                              # 인트로 변형
+b = int(B)      
+cnt_L = 0                               # 왼쪽 트리의 수 
+cnt_R = 0                               # 오른쪽 트리의 수
+while True:                             # 반복
+    if a == 1 and b == 1:               # 두 숫자가 1이면 멈춰
         break
-    if a == 1:
+    if a == 1:                          # a 가 1이면 오른쪽 트리의 수는 b - 1
         cnt_R += (b-1)
-        break
-    if b == 1:
+        break                           # 멈춰
+    if b == 1:                          # b 가 1이면 왼쪽 트리의 수는 b - 1
         cnt_L += (a-1)
-        break
-    if a > b:
-        a = a - b
-        cnt_L += 1
-    if a < b:
-        b = b - a
-        cnt_R += 1
+        break                           # 멈춰
+    if a > b:                           # a 가 크면
+        a = a - b                       # a 가 a+b 로 인해 a 로된것이니깐 a-b로 전단계로 변경
+        cnt_L += 1                      # 왼쪽트리의 수를 1 증가
+    if a < b:                           # b 가 크면
+        b = b - a                       # b 가 a+b 로 인해 b 로된것이니깐 b-a 로 전단계로 변경
+        cnt_R += 1                      # 오른쪽트리의 수를 1 증가
 
 print(cnt_L, cnt_R)
