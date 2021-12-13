@@ -10,5 +10,29 @@
 # 나눈 나머지를 return 하도록 solution 함수를 작성해주세요.
 
 def solution(m, n, puddles):
-    answer = 0
+    road = [[0] * (m) for _ in range(n)]
+    road[0][0] = 1
+    for [j, i] in puddles:
+        road[i-1][j-1] = -1
+    for y in range(n):
+        print(road[y])
+    for i in range(n):
+        for j in range(m):
+            if road[i][j] == 0:        # 0이고
+                if road[i-1][j] != -1 and road[i][j-1] != -1:  # 왼쪽이랑 위가 -1이 아니라면
+                    road[i][j] = road[i-1][j] + road[i][j-1]   # 왼쪽이랑 위의 값을 더하기
+                if road[i-1][j] == -1:                         # 위에가 -1 이면
+                    road[i][j] = road[i][j - 1]                # 옆에꺼만 더하기
+                if road[i][j-1] == -1:                         # 왼쪽이 -1 이면
+                    road[i][j] = road[i-1][j]                  # 위에꺼만 더하기
+    for y in range(n):
+        print(road[y])
+    answer = road[n-1][m-1] % 1000000007
     return answer
+
+
+m = 4
+n = 3
+puddles = [[2,2]]
+
+print(solution(m,n,puddles))
