@@ -11,9 +11,24 @@
 
 def solution(phone_book):
     answer = True
+    phone_book.sort()
+    check = phone_book
+    for i in range(len(phone_book)-1):
+        if phone_book[i] in phone_book[i+1][:len(phone_book[i])]:
+            answer = False
+            return answer
+
+
+        # for j in range(1, len(check)):
+        #     if phone_book[i] != check[j]:
+        #         if phone_book[i] in check[j][:len(phone_book[i])]:
+        #             answer = False
+        #             return answer
     return answer
 
 
-phone_book = ["119", "97674223", "1195524421"]
+phone_book = ["12","123","1235","567","88"]
 
 print(solution(phone_book))
+
+
