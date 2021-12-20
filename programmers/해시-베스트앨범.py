@@ -18,16 +18,28 @@ def solution(genres, plays):
         else:  # 없으면
             genre[genres[i]] = {i: plays[i]}
     print(genre)
+    genre_sort = {}
+    for i, j in genre.items():
+        genre_sort[i] = sorted(genre[i].items(), reverse=True, key=lambda x: x[1])
+    print(genre_sort)
     hap = {}
     for i, j in genre.items():
-        print(i)
+        # print(i)
         hap[i] = 0
         for k in j.values():
-            print(k)
+            # print(k)
             hap[i] += k
     print(hap)
-    hap_sort = sorted(hap.items(), reverse=True)
+    hap_sort = sorted(hap.items(), reverse=True, key=lambda x: x[1])
     print(hap_sort)
+    for i in range(len(hap_sort)):
+        for j, k in genre_sort.items():
+            if hap_sort[i][0] == j:
+                # print(k)
+                for l in k[:2]:
+                    # print(l)
+                    answer.append(l[0])
+
     return answer
 
 
@@ -37,5 +49,5 @@ def solution(genres, plays):
 genres = ["classic", "pop", "classic", "classic", "pop"]
 plays = [500, 600, 150, 800, 2500]
 
-
+# print(solution(["A", "A", "B", "A", "B", "B", "A", "A", "A", "A"],  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]))
 print(solution(genres, plays))
