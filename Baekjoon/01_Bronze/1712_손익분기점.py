@@ -10,3 +10,10 @@
 
 # 첫째 줄에 A, B, C가 빈 칸을 사이에 두고 순서대로 주어진다. A, B, C는 21억 이하의 자연수이다.
 
+A, B, C = map(int, input().split())
+ans = 0
+if B >= C:
+    ans = -1
+else:
+    ans = int(A/(C-B) + 1)
+print(ans)
