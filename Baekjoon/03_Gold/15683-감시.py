@@ -19,7 +19,6 @@ visited = [[0] * M for _ in range(N)]
 for i in range(N):
     for j in range(M):
         if room[i][j] and room[i][j] != 6:
-            pass
 
 
 
