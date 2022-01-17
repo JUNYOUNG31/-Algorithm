@@ -16,9 +16,80 @@
 # 배열 A에 들어있는 수와 r, c, k가 주어졌을 때, A[r][c]에 들어있는 값이 k가 되기 위한 최소 시간을 구해보자.
 
 r, c, k = map(int, input().split())
-A = []
-for _ in range(3):
-    x = list(map(int, input().split()))
-    A.append(x)
+A = [[0]*101 for _ in range(101)]
+for i in range(3):
+    x, y, z = list(map(int, input().split()))
+    A[i][0] = x
+    A[i][1] = y
+    A[i][2] = z
 
-print(A)
+for i in range(3):
+    print(A[i])
+
+# B = []  # 전치행렬
+# for i in zip(*A):
+#     B.append(list(i))
+# for i in range(3):
+#     print(B[i])
+def B(A):
+    new_A = []
+    length = 0
+    for i in range(len(A)):
+        row = A[i]
+        a = []
+        for num in set(row):
+            if num == 0:
+                continue
+            cnt = row.count(num)
+            a.append((num, cnt))
+        a = sorted(a, key=lambda x:[x[1], x[0]])
+
+        print(a)
+        for j in range(50):
+            if j < len(a):
+                A[i][j * 2] = a[j][0]
+                A[i][j * 2 + 1] = a[j][1]
+            else:
+                A[i][j * 2] = 0
+                A[i][j * 2 + 1] = 0
+        print(A[:3])
+    return A
+
+def C(A):
+    C = []
+    A = B(A)
+    for i in zip(*A):
+        C.append(list(i))
+    return C
+
+
+flag = True
+for i in range(101):
+    if A[r-1][c-1] == k:
+        print(i)
+        flag = False
+        break
+
+    row_cnt = 0
+    for j in range(101):
+        for k in range(101):
+            if A[k][j] == 0:
+                row_cnt = max(row_cnt, k)
+                break
+
+    col_cnt = 0
+    for j in range(101):
+        for k in range(101):
+            if A[j][k] == 0:
+                col_cnt = max(col_cnt, k)
+                break
+
+    print(row_cnt)
+    print(col_cnt)
+    if row_cnt >= col_cnt:
+        A = B(A)
+    else:
+        A = C(A)
+
+    if flag == True:
+        print(-1)
