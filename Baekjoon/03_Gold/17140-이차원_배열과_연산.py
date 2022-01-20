@@ -14,82 +14,100 @@
 # [3, 2, 0, 0]을 정렬한 결과는 [3, 2]를 정렬한 결과와 같다.
 # 행 또는 열의 크기가 100을 넘어가는 경우에는 처음 100개를 제외한 나머지는 버린다.
 # 배열 A에 들어있는 수와 r, c, k가 주어졌을 때, A[r][c]에 들어있는 값이 k가 되기 위한 최소 시간을 구해보자.
+from collections import defaultdict
 
-r, c, k = map(int, input().split())
-A = [[0]*101 for _ in range(101)]
-for i in range(3):
-    x, y, z = list(map(int, input().split()))
-    A[i][0] = x
-    A[i][1] = y
-    A[i][2] = z
+def make_row(arr):
+    cnt_num = defaultdict(int)
+    for num in (arr):
+        if num == 0:
+            continue
+        cnt_num[num] += 1
 
-for i in range(3):
-    print(A[i])
+    cnt_num_list = []
+    for num, cnt in cnt_num.items():
+        cnt_num_list.append((num, cnt))
 
-# B = []  # 전치행렬
-# for i in zip(*A):
-#     B.append(list(i))
-# for i in range(3):
-#     print(B[i])
-def B(A):
-    new_A = []
-    length = 0
-    for i in range(len(A)):
+    cnt_num_list.sort(key=lambda x: (x[1], x[0]))  # 정렬하기
+
+    new_row = []
+    for i in range(len(cnt_num_list)):     # 새로운 배열에
+        new_row.append(cnt_num_list[i][0])    # num
+        new_row.append(cnt_num_list[i][1])    # cnt
+
+    return new_row[:100] # 100개까지만 가져오기
+
+
+def R(A):
+    new_A = [[0 for i in range(100)] for _ in range(100)]
+
+    for i in range(100):
         row = A[i]
-        a = []
-        for num in set(row):
-            if num == 0:
-                continue
-            cnt = row.count(num)
-            a.append((num, cnt))
-        a = sorted(a, key=lambda x:[x[1], x[0]])
+        new_row = make_row(row)
 
-        print(a)
-        for j in range(50):
-            if j < len(a):
-                A[i][j * 2] = a[j][0]
-                A[i][j * 2 + 1] = a[j][1]
-            else:
-                A[i][j * 2] = 0
-                A[i][j * 2 + 1] = 0
-        print(A[:3])
-    return A
+        for j in range(len(new_row)):
+            new_A[i][j] = new_row[j]
+
+    return new_A
+
 
 def C(A):
-    C = []
-    A = B(A)
-    for i in zip(*A):
-        C.append(list(i))
-    return C
+    new_A = [[0 for i in range(100)] for _ in range(100)]
+
+    for i in range(100):
+        col = []
+        for j in range(100):
+            col.append(A[j][i])
+
+        new_col = make_row(col)
+        for j in range(len(new_col)):
+            new_A[j][i] = new_col[j]
+
+    return new_A
 
 
-flag = True
-for i in range(101):
+def max_len(A):
+    max_row = 0
+    max_col = 0
+
+    for i in range(100):
+        while max_row < 100 and A[max_row][i] != 0:
+            max_row += 1
+
+    for i in range(100):
+        while max_col < 100 and A[i][max_col] != 0:
+            max_col += 1
+
+    return (max_row, max_col)
+
+
+r, c, k = map(int, input().split())
+A = [[0 for i in range(100)] for j in range(100)]
+a = [list(map(int, input().split())) for _ in range(3)]
+for i in range(3):
+    for j in range(3):
+        A[i][j] = a[i][j]
+
+# for i in range(3):
+#     print(A[i])
+
+time = 0
+while time <= 100:
     if A[r-1][c-1] == k:
-        print(i)
-        flag = False
         break
 
-    row_cnt = 0
-    for j in range(101):
-        for k in range(101):
-            if A[k][j] == 0:
-                row_cnt = max(row_cnt, k)
-                break
-
-    col_cnt = 0
-    for j in range(101):
-        for k in range(101):
-            if A[j][k] == 0:
-                col_cnt = max(col_cnt, k)
-                break
-
-    print(row_cnt)
-    print(col_cnt)
-    if row_cnt >= col_cnt:
-        A = B(A)
+    len_row, len_col = max_len(A)
+    if len_row >= len_col:
+        A = R(A)
     else:
         A = C(A)
+    time += 1
 
-    if flag == True:
-        print(-1)
+if time > 100:
+    time = -1
+print(time)
+
+
+
+
+
+
