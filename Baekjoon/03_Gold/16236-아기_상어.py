@@ -28,7 +28,7 @@ for i in range(N):
     for j in range(N):
         if sea[i][j] == 9:
             shark = [i, j]
-            sea[i][j] = 0
+
 
 time = 0
 shark_size = 2
@@ -37,42 +37,32 @@ def bfs(r, c):
     q = deque()
     q.append([r, c, 0])  # 위치랑 거리
     visited = [[0] * N for _ in range(N)]  # 방문처리
+    visited[r][c] = 1
     eat = []
-    check = False
     while q:
         r, c, cnt = q.popleft()     # 팝
         for i in range(4):          # 4방향 탐색
             nx = r + dx[i]
             ny = c + dy[i]
-            if 0 <= nx < N and 0 <= ny < N:     # 범위안에잇고
-                if sea[nx][ny] > sea[r][c]:     # 다음 물고기가 나보다 크면 지나가유
-                    continue
-                elif (sea[nx][ny] == 0 or sea[nx][ny] == sea[r][c]) and visited[nx][ny] == 0:  # 0이거나 방문안하면 앞으로 전진
-                    q.append([nx, ny, cnt+1])
-                    visited[nx][ny] = 1
-                elif sea[nx][ny] < sea[r][c] and visited[nx][ny] == 0:   # 먹이 찾으면 먹어야겟쥬
-                    check = True                # 먹엇고
-                    visited[nx][ny] = 1         # 방문처리
-                    eat.append([nx, ny, cnt+1])     #
-    for c in range(len(visited)):
-        print(visited[c])
-    if check == False:  # 먹이없음
-        return 0
+            if 0 <= nx < N and 0 <= ny < N and visited[nx][ny] == 0:  # 범위안에 있고 방문안하고
+                if sea[nx][ny] <= shark_size:       # 상어가 더 크면
+                    q.append([nx, ny, cnt+1])       # q에 추가하고
+                    visited[nx][ny] = 1             # 방문처리하고
+                    if sea[nx][ny] < shark_size and sea[nx][ny] != 0:   # 상어가 더크고 0 이 아니면
+                        eat.append([nx, ny, cnt+1])     #먹어
+    # for c in range(len(visited)):
+    #     print(visited[c])
     return eat
 
 eat_cnt = 0
 
 while True:
     ans = bfs(shark[0], shark[1])     # 상어 위치부터 돌려
-    if ans == 0:  # 먹이없음
+    ans.sort(key=lambda x: (x[2], x[0], x[1]))
+    # for i in range(len(ans)):
+    #     print(ans[i])
+    if len(ans) == 0:  # 먹이없음
         break
-
-    # 정렬이 문제인데....
-    for i in range(len(ans)):
-        print(ans[i])
-
-
-
     eat_cnt += 1  # 물고기 먹은횟수
     sea[ans[0][0]][ans[0][1]] = 0  # 먹은 물고기 0으로 변경
 
