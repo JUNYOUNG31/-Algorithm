@@ -13,7 +13,58 @@
 # 주사위를 놓은 곳의 좌표와 이동시키는 명령이 주어졌을 때, 주사위가 이동했을 때 마다 상단에 쓰여 있는 값을 구하는 프로그램을 작성하시오.
 # 주사위는 지도의 바깥으로 이동시킬 수 없다. 만약 바깥으로 이동시키려고 하는 경우에는 해당 명령을 무시해야 하며, 출력도 하면 안 된다.
 
+dr = [0, 0, 0, -1, 1]  # 동 서 북 남
+dc = [0, 1, -1, 0, 0]
+
+
+dice = [0] * 6
+
+# dic = [[0, 1, 2, 3, 4, 5],
+#        [3, 1, 0, 5, 4, 2],
+#        [2, 1, 5, 0, 4, 3],
+#        [4, 0, 2, 3, 5, 1],
+#        [1, 5, 2, 3, 0, 4]
+#        ]
+
+
+def change(run):
+    if run == 1:
+        dice[0], dice[2], dice[3], dice[5] = dice[3], dice[0], dice[5], dice[2]
+    elif run == 2:
+        dice[0], dice[2], dice[3], dice[5] = dice[2], dice[5], dice[0], dice[3]
+    elif run == 3:
+        dice[0], dice[1], dice[4], dice[5] = dice[4], dice[0], dice[5], dice[1]
+    elif run == 4:
+        dice[0], dice[1], dice[4], dice[5] = dice[1], dice[5], dice[0], dice[4]
+
+        # dice[0] = dice[1]
+        # dice[1] = dice[5]
+        # dice[4] = dice[0]
+        # dice[5] = dice[4]
+
 
 N, M, x, y, K = map(int, input().split())
+zido = []
 for i in range(N):
-    pass
+    a = list(map(int, input().split()))
+    zido.append(a)
+
+# for i in range(N):
+#     print(zido[i])
+
+run = list(map(int, input().split()))
+# print(run)
+for i in run:
+    nr = x + dr[i]
+    nc = y + dc[i]
+    if 0 <= nr < N and 0 <= nc < M:
+        x = nr
+        y = nc
+        change(i)
+        if zido[x][y] != 0:
+            dice[5] = zido[x][y]
+            zido[x][y] = 0
+        else:
+            zido[x][y] = dice[5]
+    # print(dice)
+        print(dice[0])
