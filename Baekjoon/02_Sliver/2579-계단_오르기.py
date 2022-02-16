@@ -11,17 +11,18 @@
 # 각 계단에 쓰여 있는 점수가 주어질 때 이 게임에서 얻을 수 있는 총 점수의 최댓값을 구하는 프로그램을 작성하시오.
 
 
-arr = []
-dp = []
+stairs = [0 for _ in range(301)]
+dp = [0 for _ in range(301)]
 
 N = int(input())
-for _ in range(N):
-    arr.append(int(input()))
+for i in range(N):
+    stairs[i] = int(input())
 
-dp.append(arr[0])
-dp.append(max(arr[0]+arr[1], arr[1]))
-dp.append(max(arr[0]+arr[2], arr[1]+arr[2]))
+dp[0] = stairs[0]
+dp[1] = stairs[0]+stairs[1]
+dp[2] = max(stairs[0]+stairs[2], stairs[1]+stairs[2])
+
 for i in range(3, N):
-    dp.append(max(dp[i-2] + arr[i], dp[i-3] + arr[i] + arr[i-1]))
+    dp[i] = max(dp[i-2]+stairs[i], dp[i-3]+stairs[i]+stairs[i-1])
 
-print(dp.pop())
+print(dp[N-1])
