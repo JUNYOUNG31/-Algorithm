@@ -13,4 +13,7 @@ while cnt < N:
     else:
         now = max(now-R, m)
     t += 1
-print(t if cnt == N else -1)
+if cnt == N:
+    print(t)
+else:
+    print(-1)
