@@ -1,30 +1,30 @@
 # 텀 프로젝트
 
+import sys
+sys.setrecursionlimit(100001)
+
+
 def dfs(x):
-    global cnt
+    global ans
     visited[x] = 1
-    i = arr[x]
-    if not visited[i]:  # 방문안했으면 dfs
-        dfs(i)
-    else:               # 방문 했으면
-        if i not in team:  # 팀에 없으면
-            cnt += 1       #  
-            temp = i
-            while temp != x:
-                cnt += 1
-                temp = arr[temp]
     team.append(x)
+    temp = arr[x]
+    if visited[temp]:
+        if temp in team:
+            ans += team[team.index(temp):]
+        return
+    else:
+        dfs(temp)
 
 
 T = int(input())
-for tc in range(T):
+for _ in range(T):
     n = int(input())
     arr = [0] + list(map(int, input().split()))
-    visited = [0] * (n + 1)
-    team = []
-    cnt = 0
+    visited = [1] + [0] * n
+    ans = []
     for i in range(1, n + 1):
         if not visited[i]:
+            team = []
             dfs(i)
-    ans = n - cnt
-    print(ans)
+    print(n - len(ans))
