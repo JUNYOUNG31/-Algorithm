@@ -1,7 +1,7 @@
 # 텀 프로젝트
 
 import sys
-sys.setrecursionlimit(100001)
+sys.setrecursionlimit(111111)
 
 
 def dfs(x):
