@@ -12,11 +12,21 @@ def find(n):
 def union(a, b):
     x = find(a)
     y = find(b)
-    if y != x:          # 없으면
-        net[x] = y      # 연결시키고
-        cnt[y] += cnt[x]    # cnt  증가
-    return
+    if x < y:
+        net[y] = x
+        cnt[x] += cnt[y]
+    elif x > y:
+        net[x] = y
+        cnt[y] += cnt[x]
 
+
+# def union(a, b):
+#     x = find(a)
+#     y = find(b)
+#     if y != x:
+#         net[x] = y
+#         cnt[y] += cnt[x]
+#     return
 
 T = int(input())
 
