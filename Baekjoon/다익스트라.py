@@ -33,12 +33,12 @@ def dijkstra(start):
         if distance[now] < dist:
             continue
         # 현재 노드와 연결된 다른 인접한 노드들을 확인
-        for i in graph[now]:
-            cost = dist + i[1]
+        for next_node, next_cost in graph[now]:
+            new_cost = dist + next_cost
             # 현재 노드를 거쳐서, 다른 노드로 이동하는 거리가 더 짧은 경우
-            if cost < distance[i[0]]:
-                distance[i[0]] = cost
-                heapq.heappush(q, (cost, i[0]))
+            if new_cost < distance[next_node]:
+                distance[next_node] = new_cost
+                heapq.heappush(q, (new_cost, next_node))
 
 # 다익스트라 알고리즘을 수행
 dijkstra(start)
