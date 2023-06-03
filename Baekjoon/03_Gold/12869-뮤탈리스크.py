@@ -5,14 +5,15 @@ from itertools import permutations
 N = int(input())
 scv = [0, 0, 0]
 hp = list(map(int, input().split()))
-for i in range(3):
+for i in range(N):
     scv[i] = hp[i]
 
 dp = [[[0 for _ in range(61)] for _ in range(61)] for _ in range(61)]
 dp[scv[0]][scv[1]][scv[2]] = 1
 mutal = [9, 3, 1]
 mutals = list(permutations([9, 3, 1]))
-
+# print(mutals)
+# print(dp)
 for i in range(60, -1, -1):
     for j in range(60, -1, -1):
         for k in range(60, -1, -1):
